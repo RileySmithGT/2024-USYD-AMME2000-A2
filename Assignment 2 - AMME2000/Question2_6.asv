@@ -1,0 +1,40 @@
+function P = improveNumericalSolution(Lx, Ly, nx, ny, N, P1, P2)
+    dx = Lx / (nx - 1);
+    dy = Ly / (ny - 1);
+    P = zeros(ny, nx);
+    P_old = P;
+
+    % Implementing more accurate boundary conditions if necessary
+    x = linspace(0, Lx, nx);
+    % Assuming boundary conditions need to be precisely set:
+    P(end, :) = P1 * (1 - abs(2*x/Lx - 1)); % At y = Ly
+    P(1, Lx/2) = P2/(Lx/2);
+    P(1,Lx/2:) = P2/(Lx/2)+2*P2;
+
+
+
+    % Gauss-Jacobi iteration with improved convergence check
+    for k = 1:N
+        for i = 2:(ny-1)
+            for j = 2:(nx-1)
+                P(i, j) = 0.25 * (P_old(i+1, j) + P_old(i-1, j) + P_old(i, j+1) + P_old(i, j-1));
+            end
+        end
+        if max(max(abs(P - P_old))) < 1e-10
+            fprintf('Converged after %d iterations with max change: %f\n', k, max(max(abs(P - P_old))));
+            break;
+        end
+        P_old = P;
+    end
+    
+    % Visualization
+    [X, Y] = meshgrid(x, linspace(0, Ly, ny));
+    figure;
+    pcolor(X, Y, P);
+    shading interp;
+    colorbar;
+    title('Improved Numerical Solution of Pressure Distribution');
+    xlabel('x (m)');
+    ylabel('y (m)');
+    zlabel('Pressure (Pa)');
+end
