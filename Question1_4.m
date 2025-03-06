@@ -3,6 +3,8 @@ L = 50; % Length of the cable in meters
 T = 5e3; % Tension in Newtons
 rho = 9.86; % Linear density in kg/m
 time_points=[0,1,2,3];
+nx = 100;
+
 
 figure;
 hold on;

@@ -1,4 +1,4 @@
-function P = Question2_6(Lx, Ly, nx, ny, N, P1, P2)
+function P = Question2_6(Lx, Ly, P1, P2, nx, ny, N)
     P = zeros(ny, nx); % Initial guess
     % Set the x-axis grid
     x = linspace(0, Lx, nx);
@@ -15,7 +15,7 @@ function P = Question2_6(Lx, Ly, nx, ny, N, P1, P2)
         end
     end
 
-    err = 1;a
+    err = 1;
     tol = 1e-10; % Tolerance for convergence
     while err > tol
         P_old = P; % Store the previous values
